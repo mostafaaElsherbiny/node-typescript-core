@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"baseUrl": ".",
+		"paths": {
+			"@modules/*": ["./src/app/*"],
+			"@utils/*": ["./src/app/utils/*"],
+			"@root/*": ["./*"]
+		}
+	},
+	"exclude": ["node_modules"]
+}
