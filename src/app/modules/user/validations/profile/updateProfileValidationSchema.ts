@@ -13,9 +13,9 @@ function validate(req: Request): ObjectSchema {
 			.email()
 			.required()
 			.external(async function (value) {
-				let { userId } = await getUserFromRequestToken(req);
+				let { id } = await getUserFromRequestToken(req);
 				return User.findOne({ email: value }).then((user) => {
-					if (user && userId !== user._id.toString()) {
+					if (user && id !== user._id.toString()) {
 						JoiExtensions.throwMessage('email already exists', value, 'email', 'email');
 					}
 				});
@@ -23,11 +23,11 @@ function validate(req: Request): ObjectSchema {
 		mobile: Joi.string()
 			.required()
 			.external(async function (value) {
-				let { userId } = await getUserFromRequestToken(req);
+				let { id } = await getUserFromRequestToken(req);
 				return User.findOne({ mobile: value })
 					.populate('company')
 					.then((user) => {
-						if (user && userId !== user?._id?.toString()) {
+						if (user && id !== user?._id?.toString()) {
 							JoiExtensions.throwMessage('mobile already exists', value, 'mobile', 'mobile');
 						}
 					});
@@ -35,9 +35,9 @@ function validate(req: Request): ObjectSchema {
 		username: Joi.string()
 			.required()
 			.external(async function isUniqueUsername(value: string) {
-				let { userId } = await getUserFromRequestToken(req);
+				let { id } = await getUserFromRequestToken(req);
 				return User.findOne({ username: value }).then((user) => {
-					if (user && userId !== user?._id?.toString()) {
+					if (user && id !== user?._id?.toString()) {
 						JoiExtensions.throwMessage('username already exists', value, 'username', 'username');
 					}
 					return value;

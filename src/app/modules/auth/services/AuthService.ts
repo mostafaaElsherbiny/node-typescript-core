@@ -1,16 +1,14 @@
-import User from '@modules/user/entities/User';
 import bcrypt from 'bcrypt';
 import UserRole from '@modules/user/enums/UserRoleEnum';
 import Token from '@modules/user/entities/Token';
 import generateToken from '../helpers/generate-token';
 import UserRepository from '@modules/user/repositories/UserRepository';
+import userTransform from '@modules/user/transform/userTransform';
 class AuthService {
 	async login(data: { username: string; password: string }) {
 		return await this.superAdminValidate(data);
 	}
 	async changePassword(data: { userId: string; newPassword: string }) {
-		console.log();
-		
 		return UserRepository.changePassword(data);
 	}
 
@@ -24,7 +22,7 @@ class AuthService {
 
 			await Token.create({ token, user: user._id });
 
-			return { user, token };
+			return { user: userTransform(user), token };
 		}
 		throw new Error('Invalid Credentials');
 	}

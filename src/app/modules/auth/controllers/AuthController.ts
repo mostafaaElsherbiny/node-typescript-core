@@ -6,21 +6,19 @@ import userTransform from '@modules/user/transform/userTransform';
 class AuthController {
 	login = async (req: Request, res: Response) => {
 		try {
-			let { user, token } = await AuthService.login(req.body);
+			let result = await AuthService.login(req.body);
 
-			return ApiResponse.success(res, {
-				user: userTransform(user),
-				token: token,
-			});
+			return ApiResponse.success(res, result);
 		} catch (err: any) {
 			return ApiResponse.error(res, err.message);
 		}
 	};
 	changePassword = async (req: Request, res: Response) => {
 		try {
-			let getUserFromToken = await getUserFromRequestToken(req);
+			let user = await getUserFromRequestToken(req);
+
 			let updated = await AuthService.changePassword({
-				userId: getUserFromToken?.id as string,
+				userId: user?.id as string,
 				newPassword: req.body.newPassword,
 			});
 			return ApiResponse.success(res, updated);

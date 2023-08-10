@@ -20,27 +20,27 @@ class ProfileController {
 		if (req.body.password) {
 			preparedData.password = req.body.password;
 		}
-		let { userId } = await getUserFromRequestToken(req);
+		let { id } = await getUserFromRequestToken(req);
 		try {
-			let data = await UserService.update(userId, preparedData);
+			let data = await UserService.update(id, preparedData);
 			return ApiResponse.success(res, data);
 		} catch (error: any) {
 			return ApiResponse.error(res, error);
 		}
 	};
 	deleteAccount = async (req: Request, res: Response) => {
-		let { userId } = await getUserFromRequestToken(req);
+		let { id } = await getUserFromRequestToken(req);
 		try {
-			let data = await UserService.delete(userId);
+			let data = await UserService.delete(id);
 			return ApiResponse.success(res, data);
 		} catch (error: any) {
 			return ApiResponse.error(res, error);
 		}
 	};
 	deactivateAccount = async (req: Request, res: Response) => {
-		let { userId } = await getUserFromRequestToken(req);
+		let { id } = await getUserFromRequestToken(req);
 		try {
-			let data = await UserService.deleteAccount(userId);
+			let data = await UserService.deleteAccount(id);
 			return ApiResponse.success(res, data);
 		} catch (error: any) {
 			return ApiResponse.error(res, error);
@@ -48,8 +48,8 @@ class ProfileController {
 	};
 	deleteProfileImage = async (req: Request, res: Response) => {
 		try {
-			let { userId } = await getUserFromRequestToken(req);
-			let data = await UserService.deleteProfileImage(userId);
+			let { id } = await getUserFromRequestToken(req);
+			let data = await UserService.deleteProfileImage(id);
 			return ApiResponse.success(res, data);
 		} catch (error: any) {
 			return ApiResponse.error(res, error.message);

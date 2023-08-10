@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 import { Application } from 'express';
-import { loadAppMiddleware } from './core/providers/middlewareServiceProvider';
-import { loadAppRoutes } from './core/providers/routeServiceProvider';
-import connectToDB from './core/database/connection';
+import { loadAppMiddleware } from '@modules/core/providers/middlewareServiceProvider';
+import { loadAppRoutes } from '@modules/core/providers/routeServiceProvider';
+import connectToDB from '@modules/core/database/connection';
 
 const loadApp = async (app: Application) => {
 	dotenv.config();
