@@ -4,7 +4,7 @@
 		"resolveJsonModule": true,
 		"baseUrl": ".",
 		"paths": {
-			"@modules/*": ["./src/app/*"],
+			"@modules/*": ["./src/app/modules/*"],
 			"@utils/*": ["./src/app/utils/*"],
 			"@root/*": ["./*"]
 		}

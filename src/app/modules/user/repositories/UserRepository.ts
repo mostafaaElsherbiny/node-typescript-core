@@ -1,6 +1,6 @@
-import mongoose, { ClientSession, FilterQuery, Mongoose } from 'mongoose';
+import mongoose, { FilterQuery } from 'mongoose';
 import User, { IUser } from '../entities/User';
-import SavingUserInterface from '@modules/utils/interfaces/SavingUserInterface';
+import SavingUserInterface from '@utils/interfaces/SavingUserInterface';
 import Token from '../entities/Token';
 class UserRepository {
 	getAll = (criteria: FilterQuery<IUser>): Promise<IUser[]> => {
@@ -37,11 +37,11 @@ class UserRepository {
 				return true;
 			});
 
-			session.endSession();
+			await session.endSession();
 
 			return true;
 		} catch (error) {
-			session.endSession();
+			await session.endSession();
 			throw error;
 		}
 	};
@@ -64,7 +64,7 @@ class UserRepository {
 
 			return newPassword;
 		} catch (error) {
-			session.endSession();
+			await session.endSession();
 			throw error;
 		}
 	};
@@ -80,7 +80,30 @@ class UserRepository {
 				await Token.deleteMany({ user: data.userId }).session(session);
 			});
 
-			session.endSession();
+			await session.endSession();
+
+			return true;
+		} catch (error) {
+			await session.endSession();
+			throw error;
+		}
+	};
+	private generateRandomPassword() {
+		return Math.random().toString(36).slice(-8);
+	}
+
+	deactivate = async (id: string): Promise<boolean> => {
+		const session = await mongoose.startSession();
+		try {
+			await session.withTransaction(async (session) => {
+				let user = await this.findOrFail({ _id: id });
+
+				await user.updateOne({ active: false }).session(session);
+
+				await Token.deleteMany({ user: id }, { session });
+			});
+
+			await session.endSession();
 
 			return true;
 		} catch (error) {
@@ -88,8 +111,5 @@ class UserRepository {
 			throw error;
 		}
 	};
-	private generateRandomPassword() {
-		return Math.random().toString(36).slice(-8);
-	}
 }
 export default new UserRepository();

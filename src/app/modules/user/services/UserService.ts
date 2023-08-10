@@ -1,13 +1,11 @@
 import User, { IUser } from '../entities/User';
 import CrudServiceInterface from '@utils/interfaces/CrudServiceInterface';
-import paginate, { paginateResponse } from '@modules/core/helpers/paginate';
+import { paginateResponse } from '@modules/core/helpers/paginate';
 import FilterParametersInterface from '@utils/interfaces/FilterParametersInterface';
 import userTransform, { IUserTransformInterface, userTransformCollection } from '../transform/userTransform';
-import PaginationResponseInterface from '@utils/interfaces/PaginationResponseInterface';
 import SavingUserInterface from '@utils/interfaces/SavingUserInterface';
 import Token from '../entities/Token';
 import mongoose from 'mongoose';
-import UserRole from '../enums/UserRoleEnum';
 import { deleteFile } from '@modules/core/helpers/uploadFIle';
 import UserRepository from '../repositories/UserRepository';
 
@@ -41,19 +39,7 @@ class UserService implements CrudServiceInterface<IUserTransformInterface, Savin
 		return await UserRepository.delete(id);
 	};
 	deactivate = async (id: string) => {
-		const session = await mongoose.startSession();
-		session.startTransaction();
-		try {
-			const deactivated = await User.updateOne({ _id: id }, { active: false }, { session });
-			await Token.deleteMany({ user: id }, { session });
-			await session.commitTransaction();
-			session.endSession();
-			return deactivated.modifiedCount > 0;
-		} catch (error) {
-			await session.abortTransaction();
-			session.endSession();
-			throw error;
-		}
+		return await UserRepository.deactivate(id);
 	};
 	deleteAccount = async (id: string) => {
 		return await this.delete(id);

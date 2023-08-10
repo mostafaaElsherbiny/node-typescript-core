@@ -7,7 +7,7 @@ class AuthController {
 	login = async (req: Request, res: Response) => {
 		try {
 			let { user, token } = await AuthService.login(req.body);
-			
+
 			return ApiResponse.success(res, {
 				user: userTransform(user),
 				token: token,
