@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node --require tsconfig-paths/register' src/index.ts",
 		"seed": "ts-node  --require tsconfig-paths/register  ./src/app/core/database/seeders/seeder.ts",
-		"get-token-key": "ts-node --require tsconfig-paths/register  ./src/app/auth/helpers/generate-token-key.ts"
+		"get-token-key": "ts-node --require tsconfig-paths/register  ./src/app/auth/helpers/generate-token-key.ts",
+		"prettier": "prettier --write \"src/**/*.ts\""
 	},
 	"keywords": [],
 	"devDependencies": {

@@ -27,7 +27,7 @@ function userTransform(user: IUser): IUserTransformInterface {
 	return transformed;
 }
 
-export function userTransformCollection(users: IUser[] ): IUserTransformInterface[] {
+export function userTransformCollection(users: IUser[]): IUserTransformInterface[] {
 	return users.map((user) => userTransform(user));
 }
 

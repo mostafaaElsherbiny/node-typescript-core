@@ -22,7 +22,7 @@ export const superAdminSeeder = async function () {
 		console.log(user);
 	} catch (err) {
 		console.log(err);
-		
+
 		throw err;
 	}
 };

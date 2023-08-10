@@ -29,7 +29,7 @@ class UserController {
 	};
 	store = async (req: Request, res: Response) => {
 		console.log(req.body);
-		
+
 		let preparedData: SavingUserInterface = {
 			email: req.body.email,
 			password: req.body.password,
@@ -40,7 +40,7 @@ class UserController {
 			roles: [req.body.role],
 		};
 		console.log(preparedData);
-		
+
 		try {
 			let data = await UserService.create(preparedData);
 			return ApiResponse.success(res, data);
