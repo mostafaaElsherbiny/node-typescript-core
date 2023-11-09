@@ -18,6 +18,7 @@ function validate(req: Request): ObjectSchema {
 						JoiExtensions.throwMessage('email already exists', value, 'email', 'email');
 					}
 				});
+				
 			}),
 		mobile: Joi.string()
 			.required()
